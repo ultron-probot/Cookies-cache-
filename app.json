@@ -1,7 +1,7 @@
 {
   "name": "YouTube Cache Bot",
   "description": "A Telegram bot to cache YouTube song data in a group for fast retrieval by other bots.",
-  "repository": "https://github.com/ultron-probot/Cookies-cache",
+  "repository": "https://github.com/ultron-probot/Cookies-cache-",
   "keywords": ["telegram", "pyrogram", "cache", "youtube"],
   "env": {
     "API_ID": {
