@@ -45,4 +45,12 @@ async def cache_find_handler(client, message: Message):
     except Exception as e:
         await message.reply(f"❌ Error: {e}")
 
-app.run()
+# 📌 Bot start message
+async def start_bot():
+    await app.start()
+    await app.send_message(CACHE_GROUP_ID, "Cache bot started successfully ❤️‍🔥🥀")
+    print("Bot started and message sent to cache group.")
+    await app.idle()
+
+# Start the bot
+asyncio.run(start_bot())
