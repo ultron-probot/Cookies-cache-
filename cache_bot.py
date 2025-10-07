@@ -1,19 +1,13 @@
-import re
-import asyncio
 from pyrogram import Client, filters
-from pyrogram.types import Message
-
 from config import API_ID, API_HASH, BOT_TOKEN, CACHE_GROUP_ID
 
 app = Client("cache_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
-# 📌 जब कोई bot cache में add करे
 @app.on_message(filters.command("cache_add") & filters.private)
-async def cache_add_handler(client, message: Message):
+async def cache_add_handler(client, message):
     try:
         data = message.text.split(" ", 1)[1]
         title, duration, link, audio_id, video_id = [x.strip() for x in data.split("||")]
-
         caption = (
             f"<b>🎵 title:</b> {title.lower()}\n"
             f"<b>⏱ duration:</b> {duration}\n"
@@ -21,20 +15,13 @@ async def cache_add_handler(client, message: Message):
             f"<b>🔊 audio_id:</b> {audio_id}\n"
             f"<b>🎬 video_id:</b> {video_id}"
         )
-
-        await client.send_message(
-            chat_id=CACHE_GROUP_ID,
-            text=caption,
-            disable_web_page_preview=True
-        )
-
+        await client.send_message(CACHE_GROUP_ID, caption, disable_web_page_preview=True)
         await message.reply("✅ Cached successfully.")
     except Exception as e:
         await message.reply(f"❌ Error: {e}")
 
-# 📌 Cache search command
 @app.on_message(filters.command("cache_find") & filters.private)
-async def cache_find_handler(client, message: Message):
+async def cache_find_handler(client, message):
     try:
         query = message.text.split(" ", 1)[1].lower()
         async for msg in client.search_messages(CACHE_GROUP_ID, query):
@@ -45,12 +32,14 @@ async def cache_find_handler(client, message: Message):
     except Exception as e:
         await message.reply(f"❌ Error: {e}")
 
-# 📌 Bot start message
-async def start_bot():
-    await app.start()
-    await app.send_message(CACHE_GROUP_ID, "Cache bot started successfully ❤️‍🔥🥀")
-    print("Bot started and message sent to cache group.")
-    await app.idle()
+# 📌 Startup message
+@app.on_connect()
+async def on_connect(client):
+    try:
+        await client.send_message(CACHE_GROUP_ID, "Cache bot started successfully ❤️‍🔥🥀")
+        print("Startup message sent!")
+    except Exception as e:
+        print(f"Error sending startup message: {e}")
 
-# Start the bot
-asyncio.run(start_bot())
+if __name__ == "__main__":
+    app.run()
