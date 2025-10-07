@@ -1,0 +1,34 @@
+{
+  "name": "YouTube Cache Bot",
+  "description": "A Telegram bot to cache YouTube song data in a group for fast retrieval by other bots.",
+  "repository": "https://github.com/yourusername/cache-bot",
+  "keywords": ["telegram", "pyrogram", "cache", "youtube"],
+  "env": {
+    "API_ID": {
+      "description": "Your Telegram API ID from https://my.telegram.org",
+      "required": true
+    },
+    "API_HASH": {
+      "description": "Your Telegram API HASH from https://my.telegram.org",
+      "required": true
+    },
+    "BOT_TOKEN": {
+      "description": "Your Telegram Bot Token from @BotFather",
+      "required": true
+    },
+    "CACHE_GROUP_ID": {
+      "description": "The chat ID of the group where cache data will be stored (must be -100xxxxxxxxxx).",
+      "required": true
+    }
+  },
+  "formation": {
+    "worker": {
+      "quantity": 1
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}
